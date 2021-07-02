@@ -105,7 +105,7 @@ public class Wrapper {
 		if (value == null || value.isEmpty()) {
 			return -1D;
 		}
-		return Double.valueOf(value);
+		return Double.parseDouble(value);
 	}
 
 	/**
