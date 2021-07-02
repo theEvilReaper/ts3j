@@ -30,8 +30,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Client extends Wrapper {
+
+	private static final Pattern PROPERTY_PATTERN = Pattern.compile("[\\s:;]");
+	private static final Pattern SPLIT_PATTERN = Pattern.compile(",");
 
 	public Client(Map<String, String> map) {
 		super(map);
@@ -47,7 +51,7 @@ public class Client extends Wrapper {
 
 	public String[] getBadgeGUIDs() {
 		String raw = get(ClientProperty.CLIENT_BADGES);
-		String[] properties = raw.split("[\\s:;]");
+		String[] properties = PROPERTY_PATTERN.split(raw);
 		for (String property : properties) {
 			if (!property.startsWith("badges=")) continue;
 			String commaSepBadges = property.substring("badges=".length());
@@ -130,7 +134,7 @@ public class Client extends Wrapper {
 
 	public int[] getServerGroups() {
 		final String str = get(ClientProperty.CLIENT_SERVERGROUPS);
-		final String[] arr = str.split(",");
+		final String[] arr = SPLIT_PATTERN.split(str);
 		final int[] groups = new int[arr.length];
 		for (int i = 0; i < groups.length; i++) {
 			groups[i] = Integer.parseInt(arr[i]);
@@ -156,7 +160,7 @@ public class Client extends Wrapper {
 
 	public boolean hasOverwolf() {
 		String raw = get(ClientProperty.CLIENT_BADGES);
-		String[] properties = raw.split("[\\s:;]");
+		String[] properties = PROPERTY_PATTERN.split(raw);
 		for (String property : properties) {
 			if (!(property.startsWith("overwolf=") || property.startsWith("Overwolf="))) continue;
 			String overwolfValue = property.substring("overwolf=".length());
