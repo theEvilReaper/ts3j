@@ -42,6 +42,9 @@ import java.util.Map;
  */
 public class PermissionAssignment extends Wrapper {
 
+	//Reducing defensive copies because values() from an enum returns each call a new array.
+	private final PermissionGroupType[] values = PermissionGroupType.values();
+
 	public PermissionAssignment(Map<String, String> map) {
 		super(map);
 	}
@@ -53,7 +56,7 @@ public class PermissionAssignment extends Wrapper {
 	 */
 	public PermissionGroupType getType() {
 		final int type = getInt("t");
-		for (final PermissionGroupType p : PermissionGroupType.values()) {
+		for (final PermissionGroupType p : values) {
 			if (p.getIndex() == type) {
 				return p;
 			}

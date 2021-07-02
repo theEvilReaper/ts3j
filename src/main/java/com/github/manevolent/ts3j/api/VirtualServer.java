@@ -29,6 +29,8 @@ package com.github.manevolent.ts3j.api;
 import java.util.Map;
 
 public class VirtualServer extends Wrapper {
+	//Reducing defensive copies because values() from an enum returns each call a new array.
+	private final VirtualServerStatus[] values = VirtualServerStatus.values();
 
 	public VirtualServer(Map<String, String> map) {
 		super(map);
@@ -44,7 +46,7 @@ public class VirtualServer extends Wrapper {
 
 	public VirtualServerStatus getStatus() {
 		final String status = get(VirtualServerProperty.VIRTUALSERVER_STATUS);
-		for (final VirtualServerStatus s : VirtualServerStatus.values()) {
+		for (final VirtualServerStatus s : values) {
 			if (status.equals(s.getName())) {
 				return s;
 			}
